@@ -2,4 +2,6 @@
 backlog/
 backlog.numbers
 sample-out-*
+tickets_*
 *.egg-info/
+build/

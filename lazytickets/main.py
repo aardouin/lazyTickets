@@ -9,7 +9,6 @@ import pkg_resources
 
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 
-
 #Constants 
 FONT_RESOURCE = pkg_resources.resource_filename(__name__, "res/Cousine-Regular.ttf")
 FONT = ImageFont.truetype(FONT_RESOURCE, 80)
@@ -148,7 +147,9 @@ def main():
 
 	nbPages = max( math.ceil(len(stories) / ITEMS_PER_PAGE) , math.ceil(len(printTasks) / ITEMS_PER_PAGE))
 
+	print("generating pages ... ")
 	for i in range(nbPages):
+		print("remaining pages " + str(nbPages - i))
 		im=Image.open(SOURCE_IMAGE)
 
 		for j in range(ITEMS_PER_PAGE):
@@ -158,6 +159,9 @@ def main():
 			if index < len(printTasks):
 				writeTask(im,printTasks[index],j)
 
-		im.save("sample-out-"+ str(i) + ".jpg")
+		im.save("tickets_"+ str(i) + ".jpg")
 
 
+#launch main by default
+if __name__ == '__main__':
+    main()
