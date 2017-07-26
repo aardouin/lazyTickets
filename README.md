@@ -5,15 +5,17 @@ A script to generate scrum tickets from a backlog @ Wopata
 # Usage
 
 I assume you already have a backlog with the correct format. 
-First you need to export this .numers into csv files
+
+First you need to export this `backlog.numbers` into csv files
 
 Then you you must simply run 
 ```bash
 lazytickets -s S1 -f backlog
 ```
  - `-s` option must match the sprint tag you want to export. It is used in the first coloumn of the backlog.
- - `-f` option indicates the folder where the csv export can be found
+ - `-f` option indicates the folder where the csv export can be found, default is your currentDir
  
+ The output files will be `tickets_i.jpg` and will be placed on the folder you executed the script.
 
 # Setup
 This is a python script, it can be installed with pip 
