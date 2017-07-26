@@ -2,3 +2,4 @@
 backlog/
 backlog.numbers
 sample-out-*
+*.egg-info/

@@ -1,0 +1,2 @@
+include lazytickets/res/*.jpg
+include lazytickets/res/*.ttf 
