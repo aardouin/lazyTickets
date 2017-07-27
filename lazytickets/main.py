@@ -123,10 +123,10 @@ def main():
 	tasksCsv = open(csvFolder+ '/' + TASKS_FILENAME)
 	tasksReader = csv.reader(tasksCsv, delimiter=';')
 
-
 	for taskRow in tasksReader:
-		allTasks.append(Task(taskRow))
-
+		if taskRow[0] == sprintTag: 
+			allTasks.append(Task(taskRow))
+			
 
 	#Compute backlog
 	for row in backlogReader:
@@ -147,6 +147,7 @@ def main():
 
 	nbPages = max( math.ceil(len(stories) / ITEMS_PER_PAGE) , math.ceil(len(printTasks) / ITEMS_PER_PAGE))
 
+	print("UserStories : " + str(len(stories)) + " Tasks : " + str(len(printTasks)))
 	print("generating pages ... ")
 	for i in range(nbPages):
 		print("remaining pages " + str(nbPages - i))
