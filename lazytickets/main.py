@@ -57,6 +57,49 @@ class UserStory :
 	def __repr__(self):
 		return "US(" + self.scenario + ") what = " + self.what
 
+
+#Utility functions 
+def writeText(image, text , origin, size, rotate = False, centerX = False, centerY=False, font = FONT):
+	txt=Image.new('RGBA', size, color=(255,0,0,50) if DEBUG else (0,0,0,0))
+	draw = ImageDraw.Draw(txt)
+
+	if text != "" :
+		charSize = draw.textsize(" ",font)
+		charPerline = math.floor(size[0] / charSize[0])
+
+		text = "\n".join(textwrap.wrap(text, charPerline))
+		
+		finalTextSize = draw.multiline_textsize(text,font=font)
+		textOrigin  = ( (size[0] - finalTextSize[0] ) / 2 if centerX else 0 ,  (size[1] - finalTextSize[1] ) / 2 if centerY else 0)
+		draw.multiline_text( textOrigin, text,font=font, fill=(0,0,0))
+	
+	if rotate : 
+		w=txt.rotate(90,  expand=1)
+	else :
+		w = txt
+		
+	image.paste( w, origin ,w)
+
+
+def writeStory(image, story, indexInPage):
+	writeText(image,(story.who), (STORY_ANCHOR_LEFT,72 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,LINE_HEIGHT), centerY= True)
+	writeText(image,(story.what), (STORY_ANCHOR_LEFT,215 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,365))
+	writeText(image,(story.why), (STORY_ANCHOR_LEFT,620 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,365))
+	writeText(image,(story.sprint), (STORY_ANCHOR_LEFT,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True)
+	writeText(image,(story.scenario), (236,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True , font = FONT_SMALL)
+	writeText(image,(story.priority), (448,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True , font = FONT_SMALL)
+	writeText(image,(story.points), (655,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (210,LINE_HEIGHT),centerX = True, centerY = True)
+	writeText(image,(story.tag), (1163,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (320,LINE_HEIGHT),centerX = True, centerY = True)
+
+
+def writeTask(image, task,indexInPage):
+	writeText(image,(task.sprint), (TASK_BOTTOM_ACNCHOR,970 + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),rotate = True, centerX= True, centerY = True)
+	writeText(image,(task.scenario), (TASK_BOTTOM_ACNCHOR,762 + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),rotate = True, centerX= True, centerY = True, font= FONT_SMALL)
+	writeText(image,(task.tag), (TASK_BOTTOM_ACNCHOR,348 + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),rotate = True, centerX= True, centerY = True)
+	writeText(image,(task.points), (TASK_BOTTOM_ACNCHOR,27 + indexInPage * ITEM_HEIGHT), (290,LINE_HEIGHT),rotate = True, centerX= True, centerY = True)
+	writeText(image,(task.what), (1700,27 + indexInPage * ITEM_HEIGHT), (1120,600),rotate = True, centerX= True, centerY = True)
+
+
 def main():
 	#Arguments 
 	parser = argparse.ArgumentParser(description='Parse csv from packlogs and tranform it to printable tasks / stories')
@@ -67,48 +110,6 @@ def main():
 
 	csvFolder = args.folder
 	sprintTag = args.sprint
-
-	#Utility functions 
-	def writeText(image, text , origin, size, rotate = False, centerX = False, centerY=False, font = FONT):
-		txt=Image.new('RGBA', size, color=(255,0,0,50) if DEBUG else (0,0,0,0))
-		draw = ImageDraw.Draw(txt)
-
-		if text != "" :
-			charSize = draw.textsize(" ",font)
-			charPerline = math.floor(size[0] / charSize[0])
-
-			text = "\n".join(textwrap.wrap(text, charPerline))
-			
-			finalTextSize = draw.multiline_textsize(text,font=font)
-			textOrigin  = ( (size[0] - finalTextSize[0] ) / 2 if centerX else 0 ,  (size[1] - finalTextSize[1] ) / 2 if centerY else 0)
-			draw.multiline_text( textOrigin, text,font=font, fill=(0,0,0))
-		
-		if rotate : 
-			w=txt.rotate(90,  expand=1)
-		else :
-			w = txt
-
-		im.paste( w, origin ,w)
-
-
-	def writeStory(image, story, indexInPage):
-		writeText(image,(story.who), (STORY_ANCHOR_LEFT,72 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,LINE_HEIGHT), centerY= True)
-		writeText(image,(story.what), (STORY_ANCHOR_LEFT,215 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,365))
-		writeText(image,(story.why), (STORY_ANCHOR_LEFT,620 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,365))
-		writeText(image,(story.sprint), (STORY_ANCHOR_LEFT,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True)
-		writeText(image,(story.scenario), (236,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True , font = FONT_SMALL)
-		writeText(image,(story.priority), (448,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True , font = FONT_SMALL)
-		writeText(image,(story.points), (655,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (210,LINE_HEIGHT),centerX = True, centerY = True)
-		writeText(image,(story.tag), (1163,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (320,LINE_HEIGHT),centerX = True, centerY = True)
-
-
-	def writeTask(image, task,indexInPage):
-		writeText(image,(task.sprint), (TASK_BOTTOM_ACNCHOR,970 + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),rotate = True, centerX= True, centerY = True)
-		writeText(image,(task.scenario), (TASK_BOTTOM_ACNCHOR,762 + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),rotate = True, centerX= True, centerY = True, font= FONT_SMALL)
-		writeText(image,(task.tag), (TASK_BOTTOM_ACNCHOR,348 + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),rotate = True, centerX= True, centerY = True)
-		writeText(image,(task.points), (TASK_BOTTOM_ACNCHOR,27 + indexInPage * ITEM_HEIGHT), (290,LINE_HEIGHT),rotate = True, centerX= True, centerY = True)
-		writeText(image,(task.what), (1700,27 + indexInPage * ITEM_HEIGHT), (1120,600),rotate = True, centerX= True, centerY = True)
-
 
 	#vars
 	taskRows = []
