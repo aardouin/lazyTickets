@@ -38,7 +38,7 @@ class Task :
 		self.scenario = raw[3]
 		self.tag = raw[4]
 		self.what = raw[5]
-		self.points = raw[8]
+		self.points = raw[7]
 
 	def __repr__(self):
 		return "Task(" + self.tag + ") what = " + self.what
