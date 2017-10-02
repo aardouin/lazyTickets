@@ -17,6 +17,37 @@ lazytickets -s S1 -f backlog
  
  The output files will be `tickets_i.jpg` and will be placed on the folder you executed the script.
 
+# Backlog format
+Backlog sheet : 
+
+| field  |  column |
+|:-:|:-:|
+| Sprint | A |
+| Scenario  | D |
+| En tant que  | E |
+| Je veux  | F |
+| Afin de  | G |
+| Priorité  |  H |
+| Points  | I |
+		self.sprint = raw[0]
+		self.scenario = raw[3]
+		self.who = raw[4]
+		self.what = raw[5]
+		self.why = raw[6]
+		self.priority = raw[7]
+		self.points = raw[8]
+		self.tag = ""
+
+Tasks sheet : 
+
+| field  |  column |
+|:-:|:-:|
+| Sprint | A |
+| Scenario  | D |
+| Tag  |  E |
+| Description  |  F |
+| Estimated  |  H |
+
 # Setup
 This is a python script, it can be installed with pip 
 Install from git : `pip3 install git+git://github.com/aardouin/lazytickets.git`
