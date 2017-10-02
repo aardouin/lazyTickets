@@ -29,14 +29,6 @@ Backlog sheet :
 | Afin de  | G |
 | Priorité  |  H |
 | Points  | I |
-		self.sprint = raw[0]
-		self.scenario = raw[3]
-		self.who = raw[4]
-		self.what = raw[5]
-		self.why = raw[6]
-		self.priority = raw[7]
-		self.points = raw[8]
-		self.tag = ""
 
 Tasks sheet : 
 
