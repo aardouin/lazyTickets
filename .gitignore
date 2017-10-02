@@ -1,6 +1,5 @@
 .DS_Store
 backlog/
-backlog.numbers
 sample-out-*
 tickets_*
 *.egg-info/
