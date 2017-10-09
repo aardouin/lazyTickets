@@ -12,10 +12,14 @@ Then you you must simply run
 ```bash
 lazytickets -s S1 -f backlog
 ```
+
  - `-s` option must match the sprint tag you want to export. It is used in the first coloumn of the backlog.
  - `-f` option indicates the folder where the csv export can be found, default is your currentDir
+ - `--singleTaskStories` option indicates that you want to print tasks for stories with only one task 
+ - `--no-singleTaskStories`  option indicates that you don't want to print tasks for stories with only one task, instead, the task TAG is added to the story **(Default behavior)**
+
  
- The output files will be `tickets_i.jpg` and will be placed on the folder you executed the script.
+The output files will be `tickets_i.jpg` and will be placed on the folder you executed the script.
 
 # Backlog format
 Backlog sheet : 

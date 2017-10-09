@@ -106,10 +106,18 @@ def main():
 	parser.add_argument('-sprint','-s' , metavar='S', help='The sprint key representing the sprint' ,required=True)
 	parser.add_argument('-folder', '-f' , default='.',
 	                    help='the folder containing the CSVs exported from .number')
+
+
+
+	group = parser.add_mutually_exclusive_group(required=False)
+	group.add_argument('--singleTaskStories', dest='singleTaskStories', action='store_true')
+	group.add_argument('--no-singleTaskStories', dest='singleTaskStories', action='store_false')
+	group.set_defaults(oneTaskStories=False)
 	args = parser.parse_args()
 
 	csvFolder = args.folder
 	sprintTag = args.sprint
+	singleTaskStories = args.singleTaskStories
 
 	#vars
 	taskRows = []
@@ -139,7 +147,7 @@ def main():
 			for task in allTasks :
 				if task.scenario == us.scenario : 
 					currentTasks.append(task)
-			if len(currentTasks) == 1 : 
+			if singleTaskStories == False and len(currentTasks) == 1 : 
 				us.tag = currentTasks[0].tag
 			else: 
 				printTasks.extend( currentTasks )
