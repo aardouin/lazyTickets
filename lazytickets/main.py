@@ -106,13 +106,12 @@ def main():
 	parser.add_argument('-sprint','-s' , metavar='S', help='The sprint key representing the sprint' ,required=True)
 	parser.add_argument('-folder', '-f' , default='.',
 	                    help='the folder containing the CSVs exported from .number')
-
-
-
 	group = parser.add_mutually_exclusive_group(required=False)
-	group.add_argument('--singleTaskStories', dest='singleTaskStories', action='store_true')
-	group.add_argument('--no-singleTaskStories', dest='singleTaskStories', action='store_false')
-	group.set_defaults(oneTaskStories=False)
+	group.add_argument('--singleTaskStories',"--sts", dest='singleTaskStories', action='store_true',
+		help='indicates that you want to print tasks for stories with only one task')
+	group.add_argument('--no-singleTaskStories',"--no-sts", dest='singleTaskStories', action='store_false',
+		help="(default) indicates that you don't want to print tasks for stories with only one task, instead, the task TAG is added to the story")
+	group.set_defaults(singleTaskStories=False)
 	args = parser.parse_args()
 
 	csvFolder = args.folder
