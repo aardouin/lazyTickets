@@ -10,13 +10,13 @@ First you need to export this `backlog.numbers` into csv files
 
 Then you you must simply run 
 ```bash
-lazytickets -s S1 -f backlog
+lazytickets -s S1 -f backlog.csv
 ```
 
  - `-s` option must match the sprint tag you want to export. It is used in the first coloumn of the backlog.
- - `-f` option indicates the folder where the csv export can be found, default is your currentDir
- - `--singleTaskStories` option indicates that you want to print tasks for stories with only one task 
- - `--no-singleTaskStories`  option indicates that you don't want to print tasks for stories with only one task, instead, the task TAG is added to the story **(Default behavior)**
+ - `-f` option indicates the csv file to parse
+ - `--singleTaskStories` option indicates that you want to print tasks for stories with only one task #DEPRECATED
+ - `--no-singleTaskStories`  option indicates that you don't want to print tasks for stories with only one task, instead, the task TAG is added to the story **(Default behavior)** #DEPRECATED
 
  
 The output files will be `tickets_i.jpg` and will be placed on the folder you executed the script.
