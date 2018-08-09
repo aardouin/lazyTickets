@@ -1,6 +1,6 @@
 # lazyTickets
 
-A script to generate scrum tickets from a backlog @ Wopata
+A script to generate scrum tickets from a backlog
 
 # Usage
 
