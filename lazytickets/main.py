@@ -11,11 +11,10 @@ from PIL import Image, ImageFont, ImageDraw, ImageOps
 
 #Constants 
 FONT_RESOURCE = pkg_resources.resource_filename(__name__, "res/Cousine-Regular.ttf")
-FONT = ImageFont.truetype(FONT_RESOURCE, 80)
+FONT = ImageFont.truetype(FONT_RESOURCE, 70)
 FONT_SMALL= ImageFont.truetype(FONT_RESOURCE, 45)
 SOURCE_IMAGE= pkg_resources.resource_filename(__name__, "res/story-task.jpg")
-BACKLOG_FILENAME = 'Backlog-Table 1.csv'
-TASKS_FILENAME = 'Tasks-Table 1.csv'
+#TASKS_FILENAME = 'Tasks-Table 1.csv'
 REMOVED_TAG = 'REMOVED'
 ITEMS_PER_PAGE = 3
 
@@ -29,7 +28,7 @@ CELL_WIDTH = 175
 TASK_BOTTOM_ACNCHOR = 2345
 
 
-DEBUG = False
+DEBUG = True
 
 #Classes 
 class Task :
@@ -104,8 +103,8 @@ def main():
 	#Arguments 
 	parser = argparse.ArgumentParser(description='Parse csv from packlogs and tranform it to printable tasks / stories')
 	parser.add_argument('-sprint','-s' , metavar='S', help='The sprint key representing the sprint' ,required=True)
-	parser.add_argument('-folder', '-f' , default='.',
-	                    help='the folder containing the CSVs exported from .number')
+	parser.add_argument('-file', '-f' ,
+	                    help='the path of the backlog csv')
 	group = parser.add_mutually_exclusive_group(required=False)
 	group.add_argument('--singleTaskStories',"--sts", dest='singleTaskStories', action='store_true',
 		help='indicates that you want to print tasks for stories with only one task')
@@ -114,7 +113,7 @@ def main():
 	group.set_defaults(singleTaskStories=False)
 	args = parser.parse_args()
 
-	csvFolder = args.folder
+	csvFileName = args.file
 	sprintTag = args.sprint
 	singleTaskStories = args.singleTaskStories
 
@@ -125,15 +124,15 @@ def main():
 	printTasks = []
 
 	#Main function
-	backlogCsv = open(csvFolder+ '/' + BACKLOG_FILENAME)
-	backlogReader = csv.reader(backlogCsv, delimiter=';')
+	csvFile = open(csvFileName)
+	backlogReader = csv.reader(csvFile, delimiter=',')
 
-	tasksCsv = open(csvFolder+ '/' + TASKS_FILENAME)
-	tasksReader = csv.reader(tasksCsv, delimiter=';')
+	#tasksCsv = open(csvFolder+ '/' + TASKS_FILENAME)
+	#tasksReader = csv.reader(tasksCsv, delimiter=';')
 
-	for taskRow in tasksReader:
-		if taskRow[0] == sprintTag: 
-			allTasks.append(Task(taskRow))
+	#for taskRow in tasksReader:
+	#	if taskRow[0] == sprintTag: 
+	#		allTasks.append(Task(taskRow))
 			
 
 	#Compute backlog
@@ -142,14 +141,14 @@ def main():
 			break
 		elif row[0] == sprintTag :
 			us = UserStory(row)
-			currentTasks = []
-			for task in allTasks :
-				if task.scenario == us.scenario : 
-					currentTasks.append(task)
-			if singleTaskStories == False and len(currentTasks) == 1 : 
-				us.tag = currentTasks[0].tag
-			else: 
-				printTasks.extend( currentTasks )
+		#	currentTasks = []
+		#	for task in allTasks :
+		#		if task.scenario == us.scenario : 
+		#			currentTasks.append(task)
+			#if singleTaskStories == False and len(currentTasks) == 1 : 
+			#	us.tag = currentTasks[0].tag
+			#else: 
+		#		printTasks.extend( currentTasks )
 
 			stories.append(us)
 
