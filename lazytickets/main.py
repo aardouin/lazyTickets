@@ -28,7 +28,7 @@ CELL_WIDTH = 175
 TASK_BOTTOM_ACNCHOR = 2345
 
 
-DEBUG = True
+DEBUG = False
 
 #Classes 
 class Task :
