@@ -6,7 +6,7 @@ A script to generate scrum tickets from a backlog
 
 I assume you already have a backlog with the correct format. 
 
-First you need to export this `backlog.numbers` into csv files
+First you need to export backlog sheet into a csv file
 
 Then you you must simply run 
 ```bash
