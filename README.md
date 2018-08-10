@@ -47,9 +47,10 @@ Tasks sheet :
 
 # Setup
 This is a python script, it can be installed with pip 
-Install from git : `pip3 install git+git://github.com/aardouin/lazytickets.git`
+Install or update current version from git **recommended**: 
+```pip3 install -U git+git://github.com/aardouin/lazytickets.git```
 
-Download the latest release at https://github.com/aardouin/lazyTickets/releases/
+If you want to download a specific release, go to https://github.com/aardouin/lazyTickets/releases/
 and perform 
 `pip3 install [path_to_tar.gz]`
 
