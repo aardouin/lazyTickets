@@ -10,7 +10,7 @@ import pkg_resources
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 
 #Constants 
-FONT_RESOURCE = pkg_resources.resource_filename(__name__, "res/Cousine-Regular.ttf")
+FONT_RESOURCE = pkg_resources.resource_filename(__name__, "res/Cousine-Bold.ttf")
 FONT = ImageFont.truetype(FONT_RESOURCE, 70)
 FONT_SMALL= ImageFont.truetype(FONT_RESOURCE, 45)
 SOURCE_IMAGE= pkg_resources.resource_filename(__name__, "res/story-task.jpg")
@@ -21,8 +21,8 @@ ITEMS_PER_PAGE = 3
 ITEM_HEIGHT = 1170
 
 LINE_HEIGHT = 105
-STORY_ANCHOR_LEFT = 30
-STORY_WIDTH = 1600
+STORY_ANCHOR_LEFT = 40
+STORY_WIDTH = 1580
 STORY_BOTTOM_ANCHOR_Y = 1022
 CELL_WIDTH = 175
 TASK_BOTTOM_ACNCHOR = 2345
@@ -82,9 +82,9 @@ def writeText(image, text , origin, size, rotate = False, centerX = False, cente
 
 def writeStory(image, story, indexInPage):
 	writeText(image,(story.who), (STORY_ANCHOR_LEFT,72 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,LINE_HEIGHT), centerY= True)
-	writeText(image,(story.what), (STORY_ANCHOR_LEFT,215 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,365))
-	writeText(image,(story.why), (STORY_ANCHOR_LEFT,620 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,365))
-	writeText(image,(story.sprint), (STORY_ANCHOR_LEFT,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True)
+	writeText(image,(story.what), (STORY_ANCHOR_LEFT,225 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,355))
+	writeText(image,(story.why), (STORY_ANCHOR_LEFT,630 + indexInPage * ITEM_HEIGHT), (STORY_WIDTH,355))
+	writeText(image,(story.sprint), (30,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True)
 	writeText(image,(story.scenario), (236,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True , font = FONT_SMALL)
 	writeText(image,(story.priority), (448,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (CELL_WIDTH,LINE_HEIGHT),centerX = True, centerY = True , font = FONT_SMALL)
 	writeText(image,(story.points), (655,STORY_BOTTOM_ANCHOR_Y + indexInPage * ITEM_HEIGHT), (210,LINE_HEIGHT),centerX = True, centerY = True)
@@ -104,7 +104,9 @@ def main():
 	parser = argparse.ArgumentParser(description='Parse csv from packlogs and tranform it to printable tasks / stories')
 	parser.add_argument('-sprint','-s' , metavar='S', help='The sprint key representing the sprint' ,required=True)
 	parser.add_argument('-file', '-f' ,
-	                    help='the path of the backlog csv')
+	                    help='the path of the backlog csv', required=True)
+	parser.add_argument('-tag', '-t' ,
+	                    help='A tag to be added to all US', required=False,default="")
 	group = parser.add_mutually_exclusive_group(required=False)
 	group.add_argument('--singleTaskStories',"--sts", dest='singleTaskStories', action='store_true',
 		help='indicates that you want to print tasks for stories with only one task')
@@ -114,7 +116,8 @@ def main():
 	args = parser.parse_args()
 
 	csvFileName = args.file
-	sprintTag = args.sprint
+	sprintName = args.sprint
+	usTag = args.tag
 	singleTaskStories = args.singleTaskStories
 
 	#vars
@@ -131,7 +134,7 @@ def main():
 	#tasksReader = csv.reader(tasksCsv, delimiter=';')
 
 	#for taskRow in tasksReader:
-	#	if taskRow[0] == sprintTag: 
+	#	if taskRow[0] == sprintName: 
 	#		allTasks.append(Task(taskRow))
 			
 
@@ -139,8 +142,9 @@ def main():
 	for row in backlogReader:
 		if row[0] == REMOVED_TAG : 
 			break
-		elif row[0] == sprintTag :
+		elif row[0] == sprintName :
 			us = UserStory(row)
+			us.tag = usTag
 		#	currentTasks = []
 		#	for task in allTasks :
 		#		if task.scenario == us.scenario : 
@@ -167,7 +171,7 @@ def main():
 			if index < len(printTasks):
 				writeTask(im,printTasks[index],j)
 
-		im.save("tickets_"+ str(i) + ".jpg")
+		im.save(sprintName + "_" + usTag + "_" + str(i) + ".jpg")
 
 
 #launch main by default

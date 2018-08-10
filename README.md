@@ -15,6 +15,7 @@ lazytickets -s S1 -f backlog.csv
 
  - `-s` option must match the sprint tag you want to export. It is used in the first coloumn of the backlog.
  - `-f` option indicates the csv file to parse
+ - `-t` option adds a tag to all UserStories
  - `--singleTaskStories` option indicates that you want to print tasks for stories with only one task #DEPRECATED
  - `--no-singleTaskStories`  option indicates that you don't want to print tasks for stories with only one task, instead, the task TAG is added to the story **(Default behavior)** #DEPRECATED
 
